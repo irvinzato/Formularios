@@ -1,1 +1,102 @@
-<p>basicos works!</p>
+<p>Los formularios Template se enfocan la mayor parte de la informacion en el HTML</p>
+
+<h2>Template: Básicos</h2>
+<hr>
+
+<div class="row">
+    <div class="col">                              <!--Variable local de tipo "ngForm"-->
+        <form (ngSubmit)="guardar()" #miFormulario="ngForm" 
+              autocomplete="off">
+            <!-- Campo de Producto -->
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Producto</label>
+                <div class="col-sm-9">
+                    <input type="text"
+                           class="form-control"
+                           name="producto"
+                           ngModel
+                           placeholder="Nombre del producto"
+                           required
+                           minlength="3">  <!--Si no tengo un "name", no funciona ngModel, name es el nombre que le dare al campo-->
+                    <span class="form-text text-danger"
+                          *ngIf="nombreValido()">
+                          Debe tener minimo 3 letras
+                    </span>
+                    <!--Se usa "?" para decir si el campo existe, que ya fue renderizado el campo, quiza sea mejor usar esta opcion para evitar errores en la consola del navegador-->
+                    <!-- <span class="form-text text-danger"
+                          *ngIf="this.miFormulario.controls.producto?.invalid
+                          && this.miFormulario.controls.producto?.touched;">
+                          Debe tener minimo 3 letras
+                    </span> -->
+                </div>
+            </div>
+
+            <!-- Campo de Precio -->
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Precio</label>
+                <div class="col-sm-9">
+                    <input type="number"
+                           class="form-control"
+                           name="precio"
+                           ngModel
+                           placeholder="Precio del producto"
+                           min="0"
+                           required>
+                    <span class="form-text text-danger"
+                           *ngIf="precioValido()">
+                           El precio debe ser 0 o mas
+                     </span>
+                </div>
+            </div>
+
+            <!-- Campo de Existencia -->
+            <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Existencias</label>
+                <div class="col-sm-9">
+                    <!-- customMin es mi directiva y [minimo] viene de alli -->
+                    <input type="number"
+                           class="form-control"
+                           name="existencias"
+                           ngModel
+                           customMin
+                           [minimo]="0"
+                           placeholder="Existencia del producto"
+                           required
+                           >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="submit"
+                            [disabled]="miFormulario.invalid"
+                            class="btn btn-primary float-end">
+                        Guardar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <span>Valid</span>
+        <pre> {{miFormulario.valid}} </pre>
+
+        <span>Pristine - Significa que sus valores no se han tocado desde que se presento el formulario</span>
+        <pre> {{miFormulario.pristine}} </pre>
+
+        <span>Tocuhed - Si el usuario a tocado el formulario</span>
+        <pre> {{miFormulario.touched}} </pre>
+
+        <span>Value</span>
+        <pre> {{miFormulario.value | json}} </pre>
+
+        <span>Custom Directive</span>
+        <pre> {{miFormulario.controls.existencias?.errors | json}} </pre>
+    </div>
+</div>
