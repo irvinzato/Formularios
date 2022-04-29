@@ -1,7 +1,7 @@
 <h2>Reactivos: Switches</h2>
 <hr>
 
-<form>
+<form [formGroup]="miFormulario" (ngSubmit)="guardar()">
 
     <!-- Radios -->
     <div class="row mb-3">
@@ -11,7 +11,7 @@
                 <input class="form-check-input" 
                        type="radio"
                        value="M"
-                       name="radioGenero" 
+                       formControlName="genero"
                        id="radioMasculino">
                 <label class="form-check-label" for="radioMasculino">
                   Masculino
@@ -21,7 +21,7 @@
                 <input class="form-check-input" 
                        type="radio"
                        value="F" 
-                       name="radioGenero" 
+                       formControlName="genero" 
                        id="radioFemenino">
                 <label class="form-check-label" for="radioFemenino">
                   Femenino
@@ -37,7 +37,8 @@
         <div class="col-sm-9">
             <div class="form-check form-switch mt-2">
                 <input class="form-check-input" 
-                       type="checkbox" 
+                       type="checkbox"
+                       formControlName="notificaciones" 
                        role="switch" 
                        id="switchCheck">
                 <label class="form-check-label" for="switchCheck">Quiero recibir notificaciones</label>
@@ -53,6 +54,7 @@
             <div class="form-check">
                 <input class="form-check-input" 
                        type="checkbox"
+                       formControlName="condiciones"
                        id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                     Terminos y condiciones
@@ -65,7 +67,8 @@
     <!-- Boton -->
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary float-end">
+            <button class="btn btn-primary float-end"
+                    type="submit">
                 Guardar
             </button>
         </div>
@@ -74,7 +77,7 @@
 </form>
 
 
-<!-- <h3>Valor del formulario</h3>
+<h3>Valor del formulario</h3>
 <pre> {{miFormulario.value | json }} </pre>
 <br>
 
@@ -87,7 +90,7 @@
 <br>
 
 <h3>Campo Terminos y Condiciones</h3>
-<pre> {{miFormulario.controls?.terminos?.errors | json}} </pre>
+<!-- <pre> {{miFormulario.controls?.terminos?.errors | json}} </pre> -->
 <br>
 
-<h3>Condiciones</h3> -->
+<h3>Condiciones</h3>
