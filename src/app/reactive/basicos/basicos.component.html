@@ -5,7 +5,7 @@
 
 <div class="row">
     <div class="col">                              
-        <form autocomplete="off">
+        <form autocomplete="off" (ngSubmit)="guardar()" [formGroup]="miFormulario" >
 
             <!-- Campo de Producto -->
             <div class="mb-3 row">
@@ -13,8 +13,10 @@
                 <div class="col-sm-9">
                     <input type="text"
                            class="form-control"
+                           formControlName="nombreProducto"
                            placeholder="Nombre del producto">  
-                    <span class="form-text text-danger">
+                    <span class="form-text text-danger"
+                          *ngIf="campoNoValido('nombreProducto')">
                           Debe tener minimo 3 letras
                     </span>
 
@@ -27,8 +29,10 @@
                 <div class="col-sm-9">
                     <input type="number"
                            class="form-control"
+                           formControlName="precio"
                            placeholder="Precio del producto">
-                    <span class="form-text text-danger">
+                    <span class="form-text text-danger"
+                          *ngIf="campoNoValido('precio')">
                            El precio debe ser 0 o mas
                      </span>
                 </div>
@@ -41,14 +45,20 @@
                     <!-- customMin es mi directiva y [minimo] viene de alli -->
                     <input type="number"
                            class="form-control"
+                           formControlName="existencias"
                            placeholder="Existencia del producto">
+                    <span class="form-text text-danger"
+                           *ngIf="campoNoValido('existencias')">
+                            Las existencias deben ser 0 o mas
+                    </span>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
                     <button type="submit"
-                            class="btn btn-primary float-end">
+                            class="btn btn-primary float-end"
+                            >  
                         Guardar
                     </button>
                 </div>
@@ -60,7 +70,7 @@
 </div>
 
 
-<!-- <div class="row">
+<div class="row">
     <div class="col">
         <span>Valid</span>
         <pre> {{miFormulario.valid}} </pre>
@@ -74,7 +84,5 @@
         <span>Value</span>
         <pre> {{miFormulario.value | json}} </pre>
 
-        <span>Custom Directive</span>
-        <pre> {{miFormulario.controls.existencias?.errors | json}} </pre>
     </div>
-</div> -->
+</div>

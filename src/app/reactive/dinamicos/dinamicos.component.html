@@ -1,7 +1,7 @@
 <h2>Reactivos: <small>Dinámicos</small> </h2>
 <hr>
 
-<form autocomplete="off">
+<form autocomplete="off" (ngSubmit)="guardar()" [formGroup]="miFormulario" >
 
     <!-- Nombre -->
     <div class="mb-3 row">
@@ -9,8 +9,10 @@
         <div class="col-sm-9">
             <input type="text"
                    class="form-control"
+                   formControlName="nombre"
                    placeholder="Nombre de la persona">
-            <span class="form-text text-danger">
+            <span class="form-text text-danger"
+                  *ngIf="campoNoValido('nombre')">
                 Este campo es obligatorio
             </span>
         </div>
@@ -24,11 +26,12 @@
             <div class="input-group">
                 <input type="text"
                        class="form-control"
-                       (keyup.enter)="a=1"
+                       [formControl]="nuevoFavorito"
+                       (keyup.enter)="agregarFavorito()"
                        placeholder="Agregar favorito">
                 <button class="btn btn-outline-primary"
                         type="button"
-                        (click)="a=1">
+                        (click)="agregarFavorito()">
                     Agregar
                 </button>
             </div>
@@ -38,25 +41,31 @@
     <!-- Lista de juegos favoritos -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Favoritos</label>
-        <div class="col-sm-9">
-            
-            <!-- <div class="input-group mb-1"
-                *ngFor="let juego of persona1.favoritos; let i = index">
-                <input  class="form-control">
+
+        <div class="col-sm-9" formArrayName="favoritos">    <!--formArrayName es para decirle que trabajara aqui con un arreglo de mi formulario en ts-->
+            <div class="input-group mb-1"
+                 *ngFor="let favorito of favoritosArr.controls; let i = index"> <!--Itero en "miFormulario.controls.favoritos.controls" dentro de mi objeto pero marca un error por que angular no sabe si vendran los ultimos controles, por ello hago un get en ts-->
+                <input  class="form-control"
+                        [formControlName]="i">  <!--Lo mando como [formControlName] para que tome el valor de i y no busque en mi formulario "i"-->
                 <button class="btn btn-outline-danger"
                         type="button"
-                        (click)="a=1">
+                        (click)="borrar(i)">
                     Borrar
                 </button>
-            </div> -->
+            </div> 
+            <span class="form-text text-danger"
+                  *ngIf="favoritosArr.length<2">
+                  Debe haber minimo 2 agregados
+            </span>
         </div>
+
     </div>
 
 
 
     <div class="row">
         <div class="col">
-            <button type="button"
+            <button type="submit"
                     class="btn btn-primary float-end"
                     (click)="a=1">
                 Guardar
@@ -67,5 +76,17 @@
 </form>
 
 
-<!-- <span> Interface Persona1 </span>
-<pre> {{persona1 | json}} </pre> -->
+<span>VALID</span>
+<pre> {{miFormulario.valid}} </pre>
+<br>
+<span>VALUE</span>
+<pre> {{miFormulario.value | json}} </pre>
+<br>
+
+
+<span>Agregar Juego</span>
+<pre> {{nuevoFavorito.valid}} </pre>
+<pre> {{nuevoFavorito.value}} </pre>
+<br>
+
+
